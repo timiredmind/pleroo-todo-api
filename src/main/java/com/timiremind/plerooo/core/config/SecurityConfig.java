@@ -34,6 +34,8 @@ public class SecurityConfig {
                                         .permitAll()
                                         .requestMatchers("/user/register")
                                         .permitAll()
+                                        .requestMatchers("/user/login")
+                                        .permitAll()
                                         .anyRequest()
                                         .authenticated())
                 .sessionManagement(

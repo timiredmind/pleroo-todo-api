@@ -2,6 +2,7 @@ package com.timiremind.plerooo.core.config;
 
 import static com.timiremind.plerooo.core.util.DateUtil.getErrorTimeStamp;
 
+import com.timiremind.plerooo.core.exception.InvalidAuthenticationException;
 import com.timiremind.plerooo.core.exception.RegistrationException;
 import com.timiremind.plerooo.core.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,5 +38,18 @@ public class PlerooExceptionHandlerConfig {
                         exception.getMessage(),
                         servletRequest.getRequestURI()),
                 HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(InvalidAuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidAuthentication(
+            InvalidAuthenticationException exception, HttpServletRequest servletRequest) {
+        return new ResponseEntity<>(
+                new ErrorResponse(
+                        getErrorTimeStamp(System.currentTimeMillis()),
+                        HttpStatus.UNAUTHORIZED.value(),
+                        HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                        exception.getMessage(),
+                        servletRequest.getRequestURI()),
+                HttpStatus.UNAUTHORIZED);
     }
 }

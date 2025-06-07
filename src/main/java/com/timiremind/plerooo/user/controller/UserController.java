@@ -2,6 +2,8 @@ package com.timiremind.plerooo.user.controller;
 
 import com.timiremind.plerooo.core.response.Response;
 import com.timiremind.plerooo.user.dto.CreateUserRequestDto;
+import com.timiremind.plerooo.user.dto.LoginDto;
+import com.timiremind.plerooo.user.dto.LoginResponseDto;
 import com.timiremind.plerooo.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,16 @@ public class UserController {
             consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Response<String>> register(@RequestBody @Valid CreateUserRequestDto dto) {
         String response = userService.register(dto);
+        return ResponseEntity.ok(new Response<>(true, response));
+    }
+
+    @RequestMapping(
+            value = "/login",
+            method = {RequestMethod.POST},
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Object> login(@RequestBody @Valid LoginDto dto) {
+        LoginResponseDto response = userService.login(dto);
         return ResponseEntity.ok(new Response<>(true, response));
     }
 }

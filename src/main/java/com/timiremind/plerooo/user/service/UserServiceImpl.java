@@ -2,8 +2,12 @@ package com.timiremind.plerooo.user.service;
 
 import static com.timiremind.plerooo.core.util.StringUtil.maskString;
 
+import com.timiremind.plerooo.core.exception.InvalidAuthenticationException;
 import com.timiremind.plerooo.core.exception.RegistrationException;
+import com.timiremind.plerooo.core.jwt.JwtService;
 import com.timiremind.plerooo.user.dto.CreateUserRequestDto;
+import com.timiremind.plerooo.user.dto.LoginDto;
+import com.timiremind.plerooo.user.dto.LoginResponseDto;
 import com.timiremind.plerooo.user.entity.DatabaseUser;
 import com.timiremind.plerooo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -36,5 +41,23 @@ public class UserServiceImpl implements UserService {
                 maskString(savedUser.getUsername(), 4));
 
         return "User registered successfully.";
+    }
+
+    @Override
+    public LoginResponseDto login(LoginDto dto) throws InvalidAuthenticationException {
+        DatabaseUser existingUser =
+                userRepository
+                        .findByUsername(dto.username())
+                        .orElseThrow(
+                                () ->
+                                        new InvalidAuthenticationException(
+                                                "Invalid username and password."));
+
+        if (!passwordEncoder.matches(dto.password(), existingUser.getPassword())) {
+            throw new InvalidAuthenticationException("Invalid username and password.");
+        }
+
+        final String token = jwtService.generateToken(dto.username());
+        return new LoginResponseDto(token);
     }
 }
