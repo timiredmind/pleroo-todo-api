@@ -1,4 +1,4 @@
-package com.timiremind.plerooo.core;
+package com.timiremind.plerooo.core.config;
 
 import static com.timiremind.plerooo.core.util.DateUtil.getErrorTimeStamp;
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class PlerooExceptionHandler {
+public class PlerooExceptionHandlerConfig {
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(
             UsernameNotFoundException exception, HttpServletRequest servletRequest) {

@@ -6,7 +6,6 @@ import com.timiremind.plerooo.core.exception.RegistrationException;
 import com.timiremind.plerooo.user.dto.CreateUserRequestDto;
 import com.timiremind.plerooo.user.entity.DatabaseUser;
 import com.timiremind.plerooo.user.repository.UserRepository;
-import java.time.Clock;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

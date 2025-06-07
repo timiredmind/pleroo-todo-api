@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public class UserRepositoryImpl implements UserRepository {
 
     private final PostgreUserRepository postgreUserRepository;
-    private final Clock clock = Clock.systemUTC();
+    private final Clock clock;
 
     @Override
     public Optional<DatabaseUser> findByUsername(String username) {

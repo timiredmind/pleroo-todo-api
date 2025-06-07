@@ -39,6 +39,7 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("net.datafaker:datafaker:2.4.3")
+    testImplementation("com.h2database:h2:2.3.232")
 }
 
 tasks.withType<Test> {
