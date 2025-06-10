@@ -1,5 +1,6 @@
-package com.timiremind.plerooo.user.service;
+package com.timiremind.plerooo.user.service.user;
 
+import static com.timiredmind.pleroo.ClockTestData.testClock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
@@ -17,9 +18,8 @@ import com.timiremind.plerooo.user.dto.LoginDto;
 import com.timiremind.plerooo.user.dto.LoginResponseDto;
 import com.timiremind.plerooo.user.entity.DatabaseUser;
 import com.timiremind.plerooo.user.repository.UserRepository;
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
+import com.timiremind.plerooo.user.service.UserService;
+import com.timiremind.plerooo.user.service.UserServiceImpl;
 import java.util.Optional;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.Test;
@@ -37,9 +37,6 @@ public class UserServiceTest {
 
     private final Faker faker = new Faker();
 
-    private final String FIXED_TIME = "2025-06-03T19:54:00Z";
-    private final Clock clock = Clock.fixed(Instant.parse(FIXED_TIME), ZoneId.systemDefault());
-
     @Test
     public void successfullyRegisterUser() {
         final CreateUserRequestDto dto =
@@ -55,8 +52,8 @@ public class UserServiceTest {
                         .id(faker.internet().uuid())
                         .username(dto.username())
                         .password(encryptedPassword)
-                        .timeCreated(clock.millis())
-                        .timeUpdated(clock.millis())
+                        .timeCreated(testClock().millis())
+                        .timeUpdated(testClock().millis())
                         .build();
 
         final DatabaseUser newUser =
@@ -106,8 +103,8 @@ public class UserServiceTest {
                 DatabaseUser.builder()
                         .username(username)
                         .password(passwordEncoder.encode(password))
-                        .timeUpdated(clock.millis())
-                        .timeCreated(clock.millis())
+                        .timeUpdated(testClock().millis())
+                        .timeCreated(testClock().millis())
                         .build();
 
         when(userRepository.findByUsername(dto.username())).thenReturn(Optional.of(user));
@@ -146,8 +143,8 @@ public class UserServiceTest {
                 DatabaseUser.builder()
                         .username(username)
                         .password(passwordEncoder.encode(password))
-                        .timeUpdated(clock.millis())
-                        .timeCreated(clock.millis())
+                        .timeUpdated(testClock().millis())
+                        .timeCreated(testClock().millis())
                         .build();
 
         when(userRepository.findByUsername(dto.username())).thenReturn(Optional.of(user));

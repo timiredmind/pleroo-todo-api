@@ -1,5 +1,6 @@
 plugins {
     java
+    `java-test-fixtures`
     id("org.springframework.boot") version "3.5.0"
     id("io.spring.dependency-management") version "1.1.7"
     id("com.diffplug.spotless") version "7.0.3"
@@ -39,6 +40,7 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("net.datafaker:datafaker:2.4.3")
+    testFixturesApi("net.datafaker:datafaker:2.4.3")
     testImplementation("com.h2database:h2:2.3.232")
 }
 

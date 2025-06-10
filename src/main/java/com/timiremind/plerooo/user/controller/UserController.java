@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(
+        value = "/user",
+        produces = {MediaType.APPLICATION_JSON_VALUE})
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
     private final UserService userService;
@@ -24,7 +26,6 @@ public class UserController {
     @RequestMapping(
             value = "/register",
             method = {RequestMethod.POST},
-            produces = {MediaType.APPLICATION_JSON_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Response<String>> register(@RequestBody @Valid CreateUserRequestDto dto) {
         String response = userService.register(dto);
@@ -34,9 +35,8 @@ public class UserController {
     @RequestMapping(
             value = "/login",
             method = {RequestMethod.POST},
-            produces = {MediaType.APPLICATION_JSON_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Object> login(@RequestBody @Valid LoginDto dto) {
+    public ResponseEntity<Response<LoginResponseDto>> login(@RequestBody @Valid LoginDto dto) {
         LoginResponseDto response = userService.login(dto);
         return ResponseEntity.ok(new Response<>(true, response));
     }
