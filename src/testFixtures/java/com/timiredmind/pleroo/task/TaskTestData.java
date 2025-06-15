@@ -24,6 +24,18 @@ public class TaskTestData {
                 .build();
     }
 
+    public static CreateTaskDto testTaskDto(Priority priority, Status status) {
+        String title = faker.expression("#{letterify '?????'}");
+        String description = faker.expression("#{letterify '????????????????? ???? ???'}");
+        return CreateTaskDto.builder()
+                .title(title)
+                .description(description)
+                .dueDate(faker.random().nextLong())
+                .priority(priority)
+                .status(status)
+                .build();
+    }
+
     public static DatabaseTask testDbTask(CreateTaskDto dto, DatabaseUser user) {
         return DatabaseTask.builder()
                 .id(faker.internet().uuid())

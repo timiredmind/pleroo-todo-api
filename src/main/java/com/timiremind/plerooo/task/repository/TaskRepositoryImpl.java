@@ -4,8 +4,11 @@ import com.timiremind.plerooo.task.dto.CreateTaskDto;
 import com.timiremind.plerooo.task.entity.DatabaseTask;
 import com.timiremind.plerooo.user.entity.DatabaseUser;
 import java.time.Clock;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -30,5 +33,28 @@ public class TaskRepositoryImpl implements TaskRepository {
                         .build();
 
         return postgresTaskRepository.save(newTask);
+    }
+
+    @Override
+    public DatabaseTask update(DatabaseTask task) {
+        task.setTimeUpdated(clock.millis());
+        return postgresTaskRepository.save(task);
+    }
+
+    @Override
+    public Page<DatabaseTask> fetch(
+            DatabaseUser user, long startTime, long endTime, Pageable pageable) {
+        return postgresTaskRepository.findAllByUserAndTimeCreatedBetween(
+                user, startTime, endTime, pageable);
+    }
+
+    @Override
+    public Optional<DatabaseTask> findById(String id) {
+        return postgresTaskRepository.findById(id);
+    }
+
+    @Override
+    public void delete(String id) {
+        postgresTaskRepository.deleteById(id);
     }
 }
